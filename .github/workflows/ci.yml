@@ -1,0 +1,85 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+jobs:
+    check:
+        name: Format & Clippy
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v7
+            -   uses: dtolnay/rust-toolchain@nightly
+                with:
+                    components: rustfmt, clippy
+            -   uses: Swatinem/rust-cache@v2
+            -   name: Check formatting
+                run: cargo fmt --all -- --check
+            -   name: Check with Clippy
+                run: cargo clippy --all-targets --all-features -- -D warnings
+
+    build:
+        name: Build
+        needs: [check]
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v7
+            -   uses: dtolnay/rust-toolchain@nightly
+            -   uses: Swatinem/rust-cache@v2
+
+            -   run: cargo build --all-features
+
+#    miri:
+#        name: Miri
+#        needs: [check]
+#        runs-on: ubuntu-latest
+#        steps:
+#            -   uses: actions/checkout@v7
+#            -   uses: dtolnay/rust-toolchain@nightly
+#                with:
+#                    components: miri
+#            -   uses: Swatinem/rust-cache@v2
+#            -   name: Run Miri
+#                run: cargo miri test
+
+    test:
+        name: Testing
+        needs: [check]
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, macos-latest, windows-latest]
+                rust: [stable, beta, nightly]
+                features: # no features so far
+                    - ""
+        runs-on: ${{ matrix.os }}
+        steps:
+            -   uses: actions/checkout@v7
+            -   uses: dtolnay/rust-toolchain@master
+                with:
+                    toolchain: ${{ matrix.rust }}
+            -   uses: Swatinem/rust-cache@v2
+            -   run: "python scripts/test.py ${{ matrix.features }}"
+
+    release:
+        name: Release
+        needs:
+            -   test
+#            -   miri
+            -   build
+            -   check
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        timeout-minutes: 15
+        steps:
+            -   uses: actions/checkout@v7
+            -   uses: dtolnay/rust-toolchain@nightly
+            -   uses: Swatinem/rust-cache@v2
+
+            -   run: "python scripts/release.py"
+                env:
+                    CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

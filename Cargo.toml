@@ -1,0 +1,26 @@
+[workspace]
+resolver = "3"
+members = ["crates/reta","crates/reta-macros"]
+
+[workspace.package]
+version = "0.1.0"
+description = "Crate for extended meta-manipulation over your items."
+edition = "2024"
+rust-version = "1.98.0"
+authors = ["Ivan Chetchasov <vi.is.chapmann@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/vi-is-ramen/reta"
+readme = "README.md"
+homepage = "https://github.com/vi-is-ramen/reta"
+categories = []
+keywords = []
+
+[workspace.dependencies]
+reta = { path = "crates/reta", version = "0.1.0" }
+reta-macros = { path = "crates/reta-macros", version = "0.1.0" }
+
+[workspace.lints.rust]
+unexpected_cfgs = { level = 'allow', check-cfg = ['cfg(nightly)', 'cfg(stable)',
+    'cfg(beta)', 'cfg(docsrs)'] }
+missing_docs = 'deny'
+missing_debug_implementations = 'deny'

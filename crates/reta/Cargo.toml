@@ -1,0 +1,33 @@
+[package]
+name = "reta"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+readme.workspace = true
+homepage.workspace = true
+categories.workspace = true
+keywords.workspace = true
+build = "../../build.rs"
+
+[dependencies]
+reta-macros.workspace = true
+
+[features]
+default = ["std"]
+std = ["core"]
+core = []
+no_core = []
+macros = []
+
+[build-dependencies]
+rustversion = "1"
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
