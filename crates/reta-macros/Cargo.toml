@@ -9,6 +9,7 @@ repository.workspace = true
 readme.workspace = true
 homepage.workspace = true
 categories.workspace = true
+description.workspace = true
 keywords.workspace = true
 build = "build.rs"
 
