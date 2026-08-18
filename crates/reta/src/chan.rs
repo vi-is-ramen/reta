@@ -12,10 +12,9 @@ use crate::*;
 /// It's `#[non_exhaustive]` as we aren't mindreaders and rustc team can
 /// announce new compiler channel. It's better to care about it before it
 /// become a reason for breaking change.
-#[reta_attr(not(feature = "core"), allow(missing_debug_implementations))]
-#[reta_attr(feature = "core", derive(Copy))]
-#[reta_attr(all(channel(nightly), feature = "core"), derive_const(Clone))]
-#[reta_attr(all(not(channel(nightly)), feature = "core"), derive(Clone))]
+#[derive(Copy)]
+#[reta_attr(channel(nightly), derive_const(Clone))]
+#[reta_attr(not(channel(nightly)), derive(Clone))]
 #[non_exhaustive]
 pub enum Channel
 {
@@ -27,8 +26,7 @@ pub enum Channel
     Nightly,
 }
 
-#[reta(feature = "core")]
-impl ::core::fmt::Debug for Channel
+impl core::fmt::Debug for Channel
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
     {
@@ -41,8 +39,7 @@ impl ::core::fmt::Debug for Channel
     }
 }
 
-#[reta(feature = "core")]
-impl ::core::fmt::Display for Channel
+impl core::fmt::Display for Channel
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
     {
@@ -73,7 +70,6 @@ impl ::core::fmt::Display for Channel
 ///     Channel::Nightly | Channel::Beta | Channel::Stable
 /// ));
 /// ```
-// require `core` as we need `sized` lang item
 #[reta(all(channel(stable), not(docsrs)))]
 pub const fn channel() -> Channel
 {
@@ -98,7 +94,6 @@ pub const fn channel() -> Channel
 ///     Channel::Nightly | Channel::Beta | Channel::Stable
 /// ));
 /// ```
-// require `core` as we need `sized` lang item
 #[reta(all(channel(beta), not(docsrs)))]
 pub const fn channel() -> Channel
 {
@@ -123,7 +118,6 @@ pub const fn channel() -> Channel
 ///     Channel::Nightly | Channel::Beta | Channel::Stable
 /// ));
 /// ```
-// require `core` as we need `sized` lang item
 #[reta(all(channel(nightly), not(docsrs)))]
 pub const fn channel() -> Channel
 {
@@ -167,6 +161,4 @@ pub const fn channel() -> Channel
 ///     _ => unreachable!(),
 /// }
 /// ```
-// require `core` as we need `sized` lang item
-#[reta(all(channel(nightly)))]
 pub const CHANNEL: Channel = channel();

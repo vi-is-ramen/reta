@@ -52,8 +52,8 @@ jobs:
             matrix:
                 os: [ubuntu-latest, macos-latest, windows-latest]
                 rust: [stable, beta, nightly]
-                features: # no features so far
-                    - ""
+                features:
+                    - "core" # without any features this thing would not compile
         runs-on: ${{ matrix.os }}
         steps:
             -   uses: actions/checkout@v7

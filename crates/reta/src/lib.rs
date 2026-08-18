@@ -105,16 +105,11 @@
 //!
 //! The crate is compatible with `no_std` and `no_core` environments.
 //! By disabling the `std` and `core` features, you can use the macros
-//! without any dependency on the standard library. Some convenience
-//! traits and formatters will be absent, but the core functionality
-//! remains intact.
-//!
-//! > ***ATTENTION***
-//! >
-//! > If you disable `core` feature, don't forget to enable `no_core` feature,
-//! > otherwise Reta would implement `pointee_sized`, `meta_sized`, and `sized`
-//! > lang items by self! If you are or with it, they are available at
-//! > `reta::core` and have names `PointeeSized`, `MetaSized`, and `Sized`.
+//! without any dependency on the standard library. If you disable `core`
+//! feature, whole crate's content except macros would be disabled. You can
+//! achieve the same behavior by enabling `macros` feature, but it would not
+//! activate `#![no_core]`, so this feature exists mostly for stable compiler
+//! users.
 
 #![cfg_attr(all(nightly, not(feature = "core")), feature(no_core))]
 #![cfg_attr(all(nightly, not(feature = "core")), no_core)]
@@ -123,40 +118,23 @@
     all(nightly, feature = "core", not(feature = "macros")),
     feature(derive_const, const_clone)
 )]
-#![cfg_attr(
-    all(
-        nightly,
-        not(feature = "core"),
-        feature = "no_core",
-        not(feature = "macros")
-    ),
-    feature(lang_items)
-)]
 
 pub use reta_macros::*;
 
-#[reta(not(feature = "macros"))]
+#[reta(all(feature = "core", not(feature = "macros")))]
 mod chan;
-#[reta(not(feature = "macros"))]
-mod con;
+#[reta(all(feature = "core", not(feature = "macros")))]
+mod con_;
 
-#[reta(all(
-    nightly,
-    not(feature = "core"),
-    feature = "no_core",
-    not(feature = "macros")
-))]
-mod core;
-
-#[reta(not(feature = "macros"))]
+#[reta(all(feature = "core", not(feature = "macros")))]
 pub use chan::*;
-#[reta(not(feature = "macros"))]
-pub use con::*;
+#[reta(all(feature = "core", not(feature = "macros")))]
+pub use con_::*;
 
 /// Reta's "prelude" with the most essential re-exports.
 pub mod pre
 {
-    #[reta(not(feature = "macros"))]
+    #[reta(all(feature = "core", not(feature = "macros")))]
     pub use super::{Const, Constant, Constness, Mut, Mutable};
     pub use reta_macros::*;
 }

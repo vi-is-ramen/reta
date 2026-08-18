@@ -112,22 +112,11 @@ fn sth() { /* ... */ }
 ## Feature Flags
 
 - **`std`** *(enabled by default)*: If disabled, crate doesn't link with libstd.
-- **`core`** *(enabled by default)*: If disabled, crate doesn't link with
-libcore. Some functionality, such as built-in `Debug` and `Display`
-implementations of Reta's types, such as `Mut`, `Const`, or `Channel` also would
-be disabled (It's obvious while both `Debug` and `Display` are provided by
-libcore).
-- **`no_core`** *(disabled by default)*: If you disable the `core` feature,
-don't forget to enable `no_core` feature, otherwise Reta would implement
-`pointee_sized`, `meta_sized`, and `sized` lang items by self! If you are ok
-with it, they are available at `reta::core` and have names `PointeeSized`,
-`MetaSized`, and `Sized`. If you enable this feature, don't forget to implement
-mentioned lang items by self or enable `macros` feature.
+- **`core`** *(enabled by default)*: If you want work in `no_core` environment
+and want Reta to act only as a macros provider without it's types, functions and
+so on, you can disable this feature. Disable it only if you use nightly rustc.
 - **`macros`** *(disabled by default)*: If you want Reta to act only as a macros
 provider without it's types, functions and so on, you can enable this feature.
-This way, you can enable both `core` and `no_core` safely without requirement to
-implement `pointee_sized`, `meta_sized`, and `sized` lang items (which doesn't
-look way useful; but if you need it, we support it).
 
 ## License
 

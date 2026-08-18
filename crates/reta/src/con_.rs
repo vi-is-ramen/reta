@@ -38,10 +38,9 @@ pub trait Constant: Constness {}
 /// fn requires_mut<T: Mutable>() {}
 /// requires_mut::<Mut>();
 /// ```
-#[reta_attr(not(feature = "core"), allow(missing_debug_implementations))]
-#[reta_attr(feature = "core", derive(Copy))]
-#[reta_attr(all(feature = "core", channel(nightly)), derive_const(Clone))]
-#[reta_attr(all(feature = "core", not(channel(nightly))), derive(Clone))]
+#[derive(Copy)]
+#[reta_attr(channel(nightly), derive_const(Clone))]
+#[reta_attr(not(channel(nightly)), derive(Clone))]
 pub struct Mut;
 
 /// Type representing a constant context.
@@ -60,13 +59,11 @@ pub struct Mut;
 /// fn requires_const<T: Constant>() {}
 /// requires_const::<Const>();
 /// ```
-#[reta_attr(not(feature = "core"), allow(missing_debug_implementations))]
-#[reta_attr(feature = "core", derive(Copy))]
-#[reta_attr(all(feature = "core", channel(nightly)), derive_const(Clone))]
-#[reta_attr(all(feature = "core", not(channel(nightly))), derive(Clone))]
+#[derive(Copy)]
+#[reta_attr(channel(nightly), derive_const(Clone))]
+#[reta_attr(not(channel(nightly)), derive(Clone))]
 pub struct Const;
 
-#[reta(feature = "core")]
 impl ::core::fmt::Debug for Mut
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
@@ -75,7 +72,6 @@ impl ::core::fmt::Debug for Mut
     }
 }
 
-#[reta(feature = "core")]
 impl ::core::fmt::Debug for Const
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
@@ -84,7 +80,6 @@ impl ::core::fmt::Debug for Const
     }
 }
 
-#[reta(feature = "core")]
 impl ::core::fmt::Display for Mut
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
@@ -93,7 +88,6 @@ impl ::core::fmt::Display for Mut
     }
 }
 
-#[reta(feature = "core")]
 impl ::core::fmt::Display for Const
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result

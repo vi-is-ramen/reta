@@ -6,8 +6,11 @@ check:
     @cargo clippy --all-targets --all-features -- -D warnings
 
 test:
+    @echo '-- NDF AT'
     @cargo test --no-default-features --all-targets
+    @echo '-- AF AT'
     @cargo test --all-features --all-targets
+    @echo '-- D AF'
     @cargo test --doc --all-features
     @python scripts/test.py core
 
