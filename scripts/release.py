@@ -4,7 +4,7 @@ CARGO_TOML = lib.Cargo.manifest()
 
 
 def is_new_version() -> bool:
-    if "dev" in CARGO_TOML.package.version:  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
+    if "dev" in CARGO_TOML.workspace.package.version:  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
         return False
     for line in lib.rq.urlopen("https://index.crates.io/re/sy/resync"):  # pyright: ignore[reportAny]
         ver = lib.j.loads(line)  # pyright: ignore[reportAny]
@@ -18,7 +18,7 @@ def publish():
 
 
 def tag():
-    name = "v" + CARGO_TOML.package.version  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue, reportUnknownVariableType]
+    name = "v" + CARGO_TOML.workspace.package.version  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue, reportUnknownVariableType]
 
     sha = (
         lib.sp.run(["git", "rev-parse", "HEAD"], check=True, stdout=lib.sp.PIPE)
