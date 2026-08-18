@@ -121,14 +121,14 @@
 
 pub use reta_macros::*;
 
-#[reta(all(feature = "core", not(feature = "macros")))]
+#[cfg(all(feature = "core", not(feature = "macros")))]
 mod chan;
-#[reta(all(feature = "core", not(feature = "macros")))]
+#[cfg(all(feature = "core", not(feature = "macros")))]
 mod con_;
 
-#[reta(all(feature = "core", not(feature = "macros")))]
+#[cfg(all(feature = "core", not(feature = "macros")))]
 pub use chan::*;
-#[reta(all(feature = "core", not(feature = "macros")))]
+#[cfg(all(feature = "core", not(feature = "macros")))]
 pub use con_::*;
 
 /// Reta's "prelude" with the most essential re-exports.
