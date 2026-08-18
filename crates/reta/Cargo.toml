@@ -16,7 +16,7 @@ build = "../../build.rs"
 reta-macros.workspace = true
 
 [features]
-default = ["std"]
+default = ["std", "core"]
 std = ["core"]
 core = []
 no_core = []

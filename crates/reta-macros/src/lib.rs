@@ -5,7 +5,7 @@
 
 mod asy;
 mod cfg;
-mod con;
+mod con_;
 mod rif;
 mod saf;
 mod vis;
@@ -110,7 +110,7 @@ pub fn sync_(attr: TokenStream, item: TokenStream) -> TokenStream
 #[proc_macro_attribute]
 pub fn const_(attr: TokenStream, item: TokenStream) -> TokenStream
 {
-    con::const_(attr, item)
+    con_::const_(attr, item)
 }
 
 /// Makes an item non‑`const` unconditionally.
@@ -120,7 +120,7 @@ pub fn const_(attr: TokenStream, item: TokenStream) -> TokenStream
 #[proc_macro_attribute]
 pub fn dyn_(attr: TokenStream, item: TokenStream) -> TokenStream
 {
-    con::dyn_(attr, item)
+    con_::dyn_(attr, item)
 }
 
 /// A conditional macro that expands to `true` or `false` based on a condition.
