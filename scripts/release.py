@@ -6,7 +6,7 @@ CARGO_TOML = lib.Cargo.manifest()
 def is_new_version() -> bool:
     if "dev" in CARGO_TOML.workspace.package.version:  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
         return False
-    for line in lib.rq.urlopen("https://index.crates.io/re/sy/resync"):  # pyright: ignore[reportAny]
+    for line in lib.rq.urlopen("https://index.crates.io/re/ta/reta"):  # pyright: ignore[reportAny]
         ver = lib.j.loads(line)  # pyright: ignore[reportAny]
         if ver["vers"] == CARGO_TOML.workspace.package.version:  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
             return False
